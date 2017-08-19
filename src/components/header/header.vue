@@ -24,6 +24,8 @@
 			<span class="icon-keyboard_arrow_right"></span>
 		</div>
 		<div class="background"><img v-bind:src="seller.avatar" alt="bg" width='100%' height='100%'></div>
+
+		<!-- 详情 -->
 		<transition name='fade' mode='out-in'>
 		<div v-show='detailShow' class="detail">
 			<div class="detail-wrap">

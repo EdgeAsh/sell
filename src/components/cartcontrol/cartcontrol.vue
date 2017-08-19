@@ -19,7 +19,7 @@ export default {
     }
   },
   created(){
-    console.log(this.food);
+    // console.log(this.food);
   },
   methods: {
     inCount(event) {
