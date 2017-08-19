@@ -33,45 +33,36 @@ export default {
   @import '../../common/stylus/mixin.styl'
   
   .icontext
+    font-weight:inherit
     font-size:0
+    .icon
+      display:inline-block
+      vertical-align:middle
+      &.decrease
+        bg-image('./decrease_1')
+      &.discount
+        bg-image('./discount_1')
+      &.guarantee
+        bg-image('./guarantee_1')
+      &.invoice
+        bg-image('./invoice_1')
+      &.special
+        bg-image('./special_1')
+    .text
+      display:inline-block
+      vertical-align:middle
+      font-weight:inherit
+      margin-left:4px
     &.icon-24
       .icon
-        display:inline-block
         width:12px
         height:12px
-        vertical-align:middle
-        &.decrease
-          bg-image('./decrease_1')
-        &.discount
-          bg-image('./discount_1')
-        &.guarantee
-          bg-image('./guarantee_1')
-        &.invoice
-          bg-image('./invoice_1')
-        &.special
-          bg-image('./special_1')  
       .text
-        display:inline-block
-        font-size:10px
-        vertical-align:middle
+        font-size:12px
     &.icon-32
       .icon
-        display:inline-block
         width:16px
         height:16px
-        vertical-align:middle
-        &.decrease
-          bg-image('./decrease_1')
-        &.discount
-          bg-image('./discount_1')
-        &.guarantee
-          bg-image('./guarantee_1')
-        &.invoice
-          bg-image('./invoice_1')
-        &.special
-          bg-image('./special_1')
       .text
-        display:inline-block
         font-size:12px
-        vertical-align:middle
 </style>

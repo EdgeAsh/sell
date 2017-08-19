@@ -13,7 +13,10 @@
 					<span>{{seller.description}}</span>/<span>{{seller.deliveryTime}}分钟送达</span>
 				</div>
 				<div class="support" v-if='seller.supports'>
-				 	<span class='icon' v-bind:class="classMap[seller.supports[0].type]"></span><span>{{seller.supports[0].description}}</span>
+				<icontext
+				:size='24' :msg='seller.supports[0].description' :index='0'
+				></icontext>
+				 	<!-- <span class='icon' v-bind:class="classMap[seller.supports[0].type]"></span><span>{{seller.supports[0].description}}</span> -->
 				 	<span class="count" v-on:click="showDetail()">{{seller.supports.length}}个<i class="icon-keyboard_arrow_right"></i></span>
 				</div>
 			</div>
@@ -37,7 +40,12 @@
 					
 					<div class="title"><span class="line"></span><span class="text">优惠信息</span><span class="line"></span></div>
 					<ul class="body" v-if="seller.supports">
-						<li class="body-item" v-for="(support,index) in seller.supports"><span class='icon' v-bind:class="classMap[seller.supports[index].type]"></span><span>{{seller.supports[index].description}}</span>{{index}}</li>
+						<li class="body-item" v-for="(support,index) in seller.supports">
+						<icontext
+						:size='24' :index='index' :msg='seller.supports[index].description'
+						></icontext>
+						<!-- <span class='icon' v-bind:class="classMap[seller.supports[index].type]"></span><span>{{seller.supports[index].description}}</span>{{index}} -->
+						</li>
 					</ul>
 					<div class="title"><span class="line"></span><span class="text">商家公告</span><span class="line"></span></div>
 					<div class="body" v-if="seller.supports">
@@ -55,7 +63,8 @@
 </template>
 
 <script>
-import star from 'components/star/star.vue'
+import star from 'components/star/star.vue';
+import icontext from 'components/icon&text/icontext.vue';
 
 export default{
   props: {
@@ -72,7 +81,8 @@ export default{
   	}
   },
   components:{
-  	star: star
+  	star: star,
+  	icontext: icontext
   },
   data() {
   	return {
@@ -130,22 +140,6 @@ export default{
 					font-weight:200
 					line-height:12px
 					margin-bottom:2px
-					&>.icon
-						display:inline-block
-						width:12px
-						height:12px
-						margin-right:4px
-						vertical-align:top
-						&.decrease
-							bg-image('./decrease_1')
-						&.discount
-							bg-image('./discount_1')
-						&.guarantee
-							bg-image('./guarantee_1')
-						&.invoice
-							bg-image('./invoice_1')
-						&.special
-							bg-image('./special_1')
 					&>.count
 						position:absolute
 						right:0
@@ -259,30 +253,6 @@ export default{
 								margin-bottom:12px
 								&:last-child
 									margin-bottom:0
-								&>.icon
-									display:inline-block
-									width:16px
-									height:16px
-									margin-right:6px
-									vertical-align:middle
-									&+span
-										color:#fff
-										display:inline-block
-										margin-top:1px
-										line-height:12px
-										font-weight:200
-										font-size:12px
-										vertical-align:middle
-									&.decrease
-										bg-image('./decrease_2')
-									&.discount
-										bg-image('./discount_2')
-									&.guarantee
-										bg-image('./guarantee_2')
-									&.invoice
-										bg-image('./invoice_2')
-									&.special
-										bg-image('./special_2')
 							.bulletin
 								line-height:24px
 								font-size:12px
