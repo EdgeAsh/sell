@@ -49,11 +49,12 @@ export default {
       this.selectType = type
       // console.log('j')
       // this.$emit('sel')
-      this.$emit('ratingtype.select',type);
+      this.$emit('ratingtypeSelect',[type]);
     },
     toggleContent(){
       this.onlyContent = !this.onlyContent;
-      this.$emit('content.toggle',this.onlyContent);
+      // 传参方式
+      this.$emit('contentToggle',[this.onlyContent]);
     }
   },
   computed:{

@@ -35,7 +35,7 @@ export default {
       }
       // 触发事件
       this.$emit('cart-add',event);
-      console.log('cartcontrol add')
+      // console.log('cartcontrol add')
     },
     deCount(event){
       // if(!event._constructed){
@@ -45,7 +45,7 @@ export default {
       if(this.food.count){
         this.food.count--;
       }
-      console.log('cartcontrol des')
+      // console.log('cartcontrol des')
     }
   }
 }

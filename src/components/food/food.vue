@@ -34,6 +34,7 @@
         <div class="rating">
           <h1 class="title">商品评价</h1>
           <ratingselect
+          @contentToggle='contentToggle1' @ratingtypeSelect='ratingtypeSelect1'
             :select-type='selectType' :only-content='onlyContent' :desc='desc' :ratings='food.ratings'
           ></ratingselect>
           <div class="rating-wrap">
@@ -43,15 +44,13 @@
                   <span class="name">{{rati.username}}</span>
                   <img :src="rati.avatar" alt="头像" class="avatar">
                 </div>
-                <div class="time">
-                  {{setTime(rati.rateTime)}}
-                </div>
+                <div class="time">{{rati.rateTime | setDate}}</div>
                 <p class="txt">
                   <span :class="{'icon-thumb_down': rati.rateType === 1,'icon-thumb_up':rati.rateType === 0}"></span>{{rati.text}}
                 </p>
               </li>
             </ul>
-            <div v-else>暂无评论</div>
+            <div v-else class='otherwise'>暂无评论</div>
           </div>  
         </div>
       </div>
@@ -63,6 +62,7 @@
 import vue from 'vue'
 import cartcontrol from 'components/cartcontrol/cartcontrol.vue'
 import ratingselect from 'components/ratingselect/ratingselect.vue'
+import {formatDate} from 'common/js/date.js'
 
 const POSITIVE = 0;
 const NEGATIVE = 1;
@@ -100,13 +100,12 @@ export default {
       vue.set(this.food,'count',1);
       // console.log(event);
     },
-    setTime(time){
-      time = parseInt(time);
-      let t = new Date(time)
-      let str = t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDay()+'  '+t.getHours()+':'+t.getMinutes()+':'+t.getSeconds();
-      console.log(t.getFullYear(),t.getMonth(),t.getDay(),t.getHours(),t.getMinutes(),t.getSeconds())
-      return str;
-    },
+    // setTime(time){
+    //   time = parseInt(time);
+    //   let t = new Date(time)
+    //   let str = t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDay()+'  '+t.getHours()+':'+t.getMinutes()+':'+t.getSeconds();
+    //   return str;
+    // },
     needShow(type,text){
       if(this.onlyContent && !text){
         return false;
@@ -117,6 +116,14 @@ export default {
       }else{
         return type === this.selectType;
       }
+    },
+    ratingtypeSelect1(type){
+      this.selectType = type[0]
+      console.log('ratingtypeSelect')
+    },
+    contentToggle1(onlyContent){
+      this.onlyContent = onlyContent[0]
+      console.log('contentToggle')
     }
   },
   components:{
@@ -124,15 +131,14 @@ export default {
     ratingselect
   },
   computed:{
-    'ratingtype.select'(type){
-      this.selectType = type
-    },
-    'content.toggle'(onlyContent){
-      this.onlyContent = onlyContent
-    }
+    
   },
-  events:{
-
+  filters: {
+    // js模块化编程体现
+    setDate(time){
+      let date = new Date(time);
+      return formatDate(date,'yyyy/MM/dd hh:mm');
+    }
   }
 }
 </script>
@@ -271,4 +277,10 @@ export default {
                 color:rgb(147,153,159)
               .icon-thumb_up
                 color:rgb(0,160,220)
+          .otherwise
+            margin:0 16px
+            padding: 16px 0
+            font-size: 12px
+            color:rgb(147,153,159)
+            line-height:24px
 </style>
