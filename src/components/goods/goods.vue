@@ -1,47 +1,54 @@
 <template>
-<div class="goods">
-  <div class="menu-wrap" ref="menuScroll">
-      <ul>
-        <li class="menu-item" v-for='(item,index) in goods' :class='{"current": currentIndex === index}' @click='selectMenu(index,$event)'>
-          <span class="text"><span class="icon" v-show='item.type>0' v-bind:class='classMap[item.type]'></span>{{item.name}}</span>
-        </li>
-      </ul>
-  </div>
-  <div class="foods-wrap" ref="foodsScroll">
-      <ul>
-        <li class="g-item g-item-hook" v-for='gitem in goods'>
-          <h2 class="title">{{gitem.name}}</h2>
-          <ul>
-            <li v-for='fitem in gitem.foods' class="f-item">
-              <div class="icon"><img :src="fitem.icon" alt="菜图"></div>
-              <div class="content">
-                <h3 class="title-f">{{fitem.name}}</h3>
-                <p class="desc">{{fitem.description}}</p>
-                <div class="sell-rati"><span class="sell">月售{{fitem.sellCount}}份</span><span class="rati">好评率{{fitem.rating}}%</span></div>
-                <div class='price-con'><span class="price-n">￥{{fitem.price}}</span><span class="price-o" v-show='fitem.oldPrice'>￥{{fitem.oldPrice}}</span></div>
-                <div class="cartcontrolwrap">
-                  <cartcontrol 
-                  :food='fitem'
-                  @cart-add='_drop($event.target)'></cartcontrol>
+<div>
+  <div class="goods">
+    <div class="menu-wrap" ref="menuScroll">
+        <ul>
+          <li class="menu-item" v-for='(item,index) in goods' :class='{"current": currentIndex === index}' @click='selectMenu(index,$event)'>
+            <span class="text"><span class="icon" v-show='item.type>0' v-bind:class='classMap[item.type]'></span>{{item.name}}</span>
+          </li>
+        </ul>
+    </div>
+    <div class="foods-wrap" ref="foodsScroll">
+        <ul>
+          <li class="g-item g-item-hook" v-for='gitem in goods'>
+            <h2 class="title">{{gitem.name}}</h2>
+            <ul>
+              <li @click='selectFood(fitem,$event)' v-for='fitem in gitem.foods' class="f-item">
+                <div class="icon"><img :src="fitem.icon" alt="菜图"></div>
+                <div class="content">
+                  <h3 class="title-f">{{fitem.name}}</h3>
+                  <p class="desc">{{fitem.description}}</p>
+                  <div class="sell-rati"><span class="sell">月售{{fitem.sellCount}}份</span><span class="rati">好评率{{fitem.rating}}%</span></div>
+                  <div class='price-con'><span class="price-n">￥{{fitem.price}}</span><span class="price-o" v-show='fitem.oldPrice'>￥{{fitem.oldPrice}}</span></div>
+                  <div class="cartcontrolwrap">
+                    <cartcontrol 
+                    :food='fitem'
+                    @cart-add='_drop($event.target)'></cartcontrol>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+    <shopcart 
+    ref='shopcart'
+    :delivery-price="seller.deliveryPrice" 
+    :min-price="seller.minPrice" 
+    :select-foods='selectFoods'></shopcart>
   </div>
-  <shopcart 
-  ref='shopcart'
-  :delivery-price="seller.deliveryPrice" 
-  :min-price="seller.minPrice" 
-  :select-foods='selectFoods'></shopcart>
-</div>
+  <food 
+  :food='selectedfood' ref='food'
+  ></food>
+</div>  
 </template>
 
 <script>
   import shopcart from '../shopcart/shopcart.vue'
   import bScroll from 'better-scroll'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import food from 'components/food/food.vue'
+
   const ERR_OK = 0;
 
 export default {
@@ -79,7 +86,8 @@ export default {
    return {
      goods: [],
      heightArr: [],
-     scrollY: 0
+     scrollY: 0,
+     selectedfood:{}
    };
  },
  created() {
@@ -123,6 +131,7 @@ export default {
       this.foodsScroll = new bScroll(this.$refs.foodsScroll,{
         probeType:3,
         click: true
+        // tap: true
       });
       this.foodsScroll.on('scroll',(pos) => {
         //获取滚动的距离，区绝对值,根据滑动到的位置判断另一边条目作映射
@@ -145,11 +154,21 @@ export default {
     _drop(target){
       // 掉用子组件shopcart的drop方法
       this.$refs.shopcart.drop(target);
+    },
+    selectFood(food,event){
+      if(!event._constructed){
+        // 解决在浏览器下执行两次的情况
+        return;
+      }
+      this.selectedfood = food;
+      // 调用子组件方法
+      this.$refs.food.show();
     }
   },
   components: {
     shopcart: shopcart,
-    cartcontrol: cartcontrol
+    cartcontrol: cartcontrol,
+    food:food
   }
   // ,
   // events:{

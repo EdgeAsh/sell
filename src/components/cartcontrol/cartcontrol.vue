@@ -1,11 +1,11 @@
 <template>
   <div class="cartcontrol">
     <transition name='rotate'>
-      <div class="cart-decrease icon-remove_circle_outline" v-show='food.count>0' @click='deCount'>
+      <div class="cart-decrease icon-remove_circle_outline" v-show='food.count>0' @click.stop.prevent='deCount'>
       </div>
     </transition>
     <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
-    <div class="cart-increase icon-add_circle" @click='inCount'>
+    <div class="cart-increase icon-add_circle" @click.stop.prevent='inCount'>
     </div>
   </div>
 </template>
@@ -23,25 +23,29 @@ export default {
   },
   methods: {
     inCount(event) {
-      if(!event._constructed){
-        return
-      }
+      // if(!event._constructed){
+      //   pc浏览器上阻止了原生事件
+      //   return
+      // }
       if(!this.food.count){
         // 使用vue的set接口定义变量，变量的变化可以被侦查到
         Vue.set(this.food,'count',1);
       }else{
         this.food.count++;
       }
-      // 派发事件
+      // 触发事件
       this.$emit('cart-add',event);
+      console.log('cartcontrol add')
     },
     deCount(event){
-      if(!event._constructed){
-        return
-      }
+      // if(!event._constructed){
+      //   console.log('e_constructed')
+      //   return
+      // }
       if(this.food.count){
         this.food.count--;
       }
+      console.log('cartcontrol des')
     }
   }
 }

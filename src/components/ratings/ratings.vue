@@ -19,7 +19,9 @@
     <li>{{item.msg2}}</li>
   </div>
   
-
+  <div class="hh">
+    <div class="jj">我是计算机第六空间</div>
+  </div>
 </span>
 </template>
 
@@ -88,4 +90,9 @@ export default{
     transition: all 0.5s
   &.fade-enter, &.fade-leave-active
     opacity: 0 
+    
+.hh
+  padding:12px
+  .jj
+    padding: 12px
 </style>
