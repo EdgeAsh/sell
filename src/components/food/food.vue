@@ -100,12 +100,6 @@ export default {
       vue.set(this.food,'count',1);
       // console.log(event);
     },
-    // setTime(time){
-    //   time = parseInt(time);
-    //   let t = new Date(time)
-    //   let str = t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDay()+'  '+t.getHours()+':'+t.getMinutes()+':'+t.getSeconds();
-    //   return str;
-    // },
     needShow(type,text){
       if(this.onlyContent && !text){
         return false;
@@ -119,11 +113,9 @@ export default {
     },
     ratingtypeSelect1(type){
       this.selectType = type[0]
-      console.log('ratingtypeSelect')
     },
     contentToggle1(onlyContent){
       this.onlyContent = onlyContent[0]
-      console.log('contentToggle')
     }
   },
   components:{

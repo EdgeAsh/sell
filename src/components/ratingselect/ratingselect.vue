@@ -44,17 +44,23 @@ export default {
       }
     }
   },
+  data(){
+    return {
+      selectType1: this.selectType,
+      onlyContent1: this.onlyContent  
+    }
+  },
   methods:{
     select(type,event){
-      this.selectType = type
+      this.selectType1 = type
       // console.log('j')
       // this.$emit('sel')
       this.$emit('ratingtypeSelect',[type]);
     },
     toggleContent(){
-      this.onlyContent = !this.onlyContent;
+      this.onlyContent1 = !this.onlyContent1;
       // 传参方式
-      this.$emit('contentToggle',[this.onlyContent]);
+      this.$emit('contentToggle',[this.onlyContent1]);
     }
   },
   computed:{
