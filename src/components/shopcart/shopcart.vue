@@ -18,13 +18,15 @@
         </div>
       </div>
     </div>
-    <transition-group 
-    @before-enter='beforeDrop' @enter='dropping' @after-enter='afterDrop'
-    tag='div' name='drop'>
-      <div class="ball out-drop" v-for='ball in balls' :key='ball.id' v-show='ball.show'>
-        <div class="inner in-drop inner-hook"></div>
-      </div>
-    </transition-group>
+    <div v-for='ball in balls' > <!-- 这样布局避免用trasition-group,并且避免其它我不知道的错误 -->
+      <transition
+      @before-enter='beforeDrop' @enter='dropping' @after-enter='afterDrop'
+      tag='div' name='drop'>
+        <div class="ball" v-show='ball.show'>
+          <div class="inner inner-hook"></div>
+        </div>
+      </transition>
+    </div>
     <transition name='fold'>
       <div class="shopcart-list" v-show='listShow'>
         <div class="shoptitle clearfix">
@@ -78,24 +80,19 @@ export default {
     return {
       balls: [
         {
-          show:false,
-          id:1
+          show:false
         },
         {
-          show:false,
-          id:2
+          show:false
         },
         {
-          show:false,
-          id:3
+          show:false
         },
         {
-          show:false,
-          id:4
+          show:false
         },
         {
-          show:false,
-          id:5
+          show:false
         }
       ],
       // 已经下落的小球
@@ -173,7 +170,7 @@ export default {
   },
   methods: {
     drop(el){
-      // 遍历balls，拿到第一个show为false的ball来作动画。用dropBalls数组存储已经下落的小球
+      // 每点击cartcontrol一次添加就会遍历balls，拿到第一个show为false的ball来作动画。用dropBalls数组存储已经下落的小球
       for(let i=0;i<this.balls.length;i++){
         let ball = this.balls[i];
         if(!ball.show){
@@ -192,7 +189,7 @@ export default {
           if(ball.show){
             // 获取被点击的cartcontrol元素在视口的位置
             let rect = ball.el.getBoundingClientRect();
-            // console.log(rect)
+            // console.log(rect.left,rect.top)
             let x = rect.left-32;
             let y = -(window.innerHeight- rect.top -22);
             el.style.display='';
@@ -208,26 +205,23 @@ export default {
       /*eslint-disable no-unused-vars*/
       let rf = el.offsetHeight; //触发浏览器重回
       this.$nextTick(() => {
-        el.style.display='';
         el.style.webkitTransform = 'translate3d(0,0,0)';
         el.style.transform = 'translate3d(0,0,0)';
         let inner = el.getElementsByClassName('inner-hook')[0];
         // console.log('dropping');
         inner.style.webkitTransform ='translate3d(0,0,0)';
         inner.style.transform = 'translate3d(0,0,0)';
-      })
-      
-      // console.log(el,'doing')
-      done();
+        el.addEventListener('transitionend', done);
+      });
     },
     afterDrop(el){
       let ball = this.dropBalls.shift();
       if(ball){
-        setTimeout(function () {
-          ball.show = false;
-        },0);
-        // ball.show = false;
-        // el.style.display = 'none';
+        // setTimeout(function () {
+        //   ball.show = false;
+        // },0);
+        ball.show = false;
+        el.style.display="none"
       }
     },
     toggle(){
@@ -368,13 +362,13 @@ export default {
       left:32px
       bottom:22px
       z-index:200
-      transition: all .3s cubic-bezier(0.49,-0.29,0.75,0.41)
+      transition: all .25s cubic-bezier(0.49,-0.29,0.75,0.41)
       .inner
         width:16px
         height:16px
         border-radius:50%
         background-color:rgb(0,160,220)
-        transition: all .3s linear
+        transition: all .25s linear
     .shopcart-list
       background-color:#fff
       position:absolute
