@@ -51,18 +51,19 @@ export default {
     .text
       display:inline-block
       vertical-align:middle
-      font-weight:inherit
-      margin-left:4px
+      font-weight: 200
     &.icon-24
       .icon
         width:12px
         height:12px
       .text
-        font-size:12px
+        font-size:10px
+        margin-left:4px
     &.icon-32
       .icon
         width:16px
         height:16px
       .text
         font-size:12px
+        margin-left:6px
 </style>

@@ -18,22 +18,35 @@
 
 <script>
 import header from './components/header/header.vue'
+import {urlParse} from 'common/js/utils.js'
 
 const ERR_OK = 0;
 
 export default {
   data() {
     return {
-      seller: {}
+      seller: {
+        id:(() => {
+          /*
+            商家you好多，使用id区分不同商家。
+            id来自不同URL中的？到＃间的值用window.location.search能获取该值,
+            把获得的值解析成对象反悔
+          */ 
+          let queryParam = urlParse();
+          console.log(queryParam);
+          return queryParam.id;
+        })()
+      }
     };
   },
   created() {
-    this.$http.get('/api/seller').then(function(response){
+    this.$http.get('/api/seller?id='+this.seller.id).then(function(response){
         response = response.body;
         // console.log(response);
         if(response.errno === ERR_OK){
-          this.seller = response.data;
-          // console.log(this.seller);
+          // this.seller = response.data;
+          this.seller = Object.assign({},this.seller,response.data); //es6给对象扩展属性的方法
+          console.log(this.seller)
         }
     }, function(response){
       console.log('有错误');
