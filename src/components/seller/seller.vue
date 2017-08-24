@@ -63,6 +63,8 @@
 <script>
 import star from "components/star/star.vue"
 import icontext from "components/icon&text/icontext.vue"
+import {saveToLocal,loadFromLocal} from 'common/js/store.js'
+
 export default{
   props:{
     seller: {
@@ -71,13 +73,17 @@ export default{
   },
   data(){
     return {
-      favorite: false
+      favorite:(() => {
+        return loadFromLocal(this.seller.id,'favorite',false);
+      })()
     }
   },
   methods:{
     toggleFavor(){
+      console.log(this.seller);
       this.favorite = !this.favorite;
       // 将收藏的状态存入缓存
+      saveToLocal(this.seller.id,'favorite',this.favorite);
     }
   },
   components: {
