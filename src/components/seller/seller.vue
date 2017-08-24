@@ -77,6 +77,7 @@ export default{
   methods:{
     toggleFavor(){
       this.favorite = !this.favorite;
+      // 将收藏的状态存入缓存
     }
   },
   components: {

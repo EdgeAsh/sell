@@ -26,14 +26,14 @@ export default {
   data() {
     return {
       seller: {
-        id:(() => {
+        id:(function(){
           /*
             商家you好多，使用id区分不同商家。
-            id来自不同URL中的？到＃间的值用window.location.search能获取该值,
+            id来自不同URL中的查询部分的值，用window.location.search能获取该值,
             把获得的值解析成对象反悔
           */ 
           let queryParam = urlParse();
-          console.log(queryParam);
+          console.log(queryParam)
           return queryParam.id;
         })()
       }
@@ -46,7 +46,6 @@ export default {
         if(response.errno === ERR_OK){
           // this.seller = response.data;
           this.seller = Object.assign({},this.seller,response.data); //es6给对象扩展属性的方法
-          console.log(this.seller)
         }
     }, function(response){
       console.log('有错误');
