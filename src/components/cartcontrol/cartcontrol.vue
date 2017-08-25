@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import vue from 'vue'
 export default {
   props:{
     food: {
@@ -24,18 +24,17 @@ export default {
   methods: {
     inCount(event) {
       // if(!event._constructed){
-      //   pc浏览器上阻止了原生事件
+      //   // pc浏览器上阻止了原生事件
       //   return
       // }
       if(!this.food.count){
         // 使用vue的set接口定义变量，变量的变化可以被侦查到
-        Vue.set(this.food,'count',1);
+        vue.set(this.food,'count',1);
       }else{
         this.food.count++;
       }
       // 触发事件
       this.$emit('cart-add',event);
-      // console.log('cartcontrol add')
     },
     deCount(event){
       // if(!event._constructed){

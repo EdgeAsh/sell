@@ -16,6 +16,7 @@
           </div>
           <div class="cartcontrwrap">
             <cartcontrol
+              @cart-add='addTo'
               :food='food'
             ></cartcontrol>
           </div>
@@ -94,11 +95,12 @@ export default {
       this.showFlag = false;
     },
     addTo(event){
-      // if(!event._constructed){
-      //   return
-      // }
-      vue.set(this.food,'count',1);
-      // console.log(event);
+      if(!this.food.count){
+        // 使用vue的set接口定义变量，变量的变化可以被侦查到
+        vue.set(this.food,'count',1);
+      }
+      // 触发add-f事件
+      this.$emit('add-f',event);
     },
     needShow(type,text){
       if(this.onlyContent && !text){

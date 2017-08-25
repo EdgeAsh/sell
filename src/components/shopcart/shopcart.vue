@@ -162,7 +162,6 @@ export default {
           }else{
             this.scroll.refresh();
           }
-          console.log('tick')
         });
       }
       return show;

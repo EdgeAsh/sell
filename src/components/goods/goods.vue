@@ -37,7 +37,9 @@
     :min-price="seller.minPrice" 
     :select-foods='selectFoods'></shopcart>
   </div>
-  <food 
+  <!-- 监控food的drop事件 -->
+  <food
+  @add-f="_drop($event.target)"
   :food='selectedfood' ref='food'
   ></food>
 </div>  
@@ -149,11 +151,11 @@ export default {
         h += goodsList[i].clientHeight;
         this.heightArr.push(h);
       }
-      // console.error(this.heightArr);
     },
     _drop(target){
       // 掉用子组件shopcart的drop方法
       this.$refs.shopcart.drop(target);
+      // 或者触发子组建的方法drop
     },
     selectFood(food,event){
       if(!event._constructed){
